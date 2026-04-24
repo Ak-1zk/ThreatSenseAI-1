@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ThreatSense AI — Dashboard</title>
+    <meta name="description"
+        content="ThreatSense AI cybersecurity dashboard. Analyze URLs, emails, messages and chat with ThreatSense AI." />
+    <link rel="icon" href="assets/icon.png" />
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="page-center">
+        <div class="spinner spinner-lg text-primary"></div>
+    </div>
+
+    <!-- ════════════════════ App Shell ════════════════════ -->
+    <div id="app-shell" class="page-layout hidden">
+
+        <!-- ── Header ── -->
+        <header class="app-header">
+            <div class="header-inner">
+                <div class="logo">
+                    <img src="assets/icon.png" alt="ThreatSense AI" class="logo-img" />
+                    <div class="logo-text">
+                        <span class="logo-name">ThreatSense AI</span>
+                        <span class="logo-sub">Intelligent Threat Analyzer</span>
+                    </div>
+                </div>
+                <div class="header-right" id="header-user-area">
+                    <!-- Populated by app.js -->
+                </div>
+            </div>
+        </header>
+
+        <!-- ── Main Content ── -->
+        <main class="main-content">
+            <div class="main-inner flex-col-gap-8">
+
+                <!-- ═══ Daily Briefing ═══ -->
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2 class="card-title font-headline">
+                            <!-- Newspaper Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="hsl(217,91%,60%)" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2" />
+                                <path d="M18 14h-8" />
+                                <path d="M15 18h-5" />
+                                <path d="M10 6h8v4h-8V6Z" />
+                            </svg>
+                            ThreatSense AI Daily Briefing
+                        </h2>
+                        <p class="card-description">Get your daily summary of the latest cybersecurity threats.</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="accordion-item" id="briefing-accordion">
+                            <button class="accordion-trigger" id="briefing-trigger">
+                                <span id="briefing-label">Get Today's Briefing</span>
+                                <svg class="accordion-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
+                            </button>
+                            <div class="accordion-content">
+                                <div id="briefing-content" class="briefing-content md-prose"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ Analysis Panel ═══ -->
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2 class="card-title font-headline">
+                            <!-- Shield Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="hsl(217,91%,60%)" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                            </svg>
+                            Threat Analysis
+                        </h2>
+                        <p class="card-description">Submit content for AI-powered security analysis.</p>
+                    </div>
+                    <div class="card-content" style="padding-top:0;">
+                        <!-- Tabs -->
+                        <div class="tabs-list" role="tablist" style="grid-template-columns: repeat(4, 1fr);">
+                            <button class="tab-trigger active" data-tab="url" role="tab">URL</button>
+                            <button class="tab-trigger" data-tab="email" role="tab">Email</button>
+                            <button class="tab-trigger" data-tab="message" role="tab">Message</button>
+                            <button class="tab-trigger" data-tab="qr" role="tab">QR Code</button>
+                        </div>
+
+                        <div class="analysis-grid">
+                            <!-- Left: Analyzers -->
+                            <div class="analysis-left">
+
+                                <!-- URL Tab -->
+                                <div class="tab-content active" id="tab-url">
+                                    <div class="flex items-center gap-2" style="margin-bottom:0.5rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="hsl(217,91%,60%)" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                                            <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                                            <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                                            <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                                            <path d="M7 12h10" />
+                                        </svg>
+                                        <h2 class="text-2xl font-bold font-headline">URL Analyzer</h2>
+                                    </div>
+                                    <p class="text-sm text-muted-foreground" style="margin-bottom:1.5rem;">Enter a URL
+                                        to analyze its potential security risk.</p>
+                                    <form id="url-form" class="form-spacer" novalidate>
+                                        <div class="form-group">
+                                            <label for="url-input" class="form-label">Website URL</label>
+                                            <input type="url" id="url-input" class="input"
+                                                placeholder="https://example.com" required />
+                                            <span id="url-error" class="form-error hidden"></span>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" id="url-btn" class="btn btn-primary btn-lg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                                                    <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                                                    <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                                                    <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                                                    <path d="M7 12h10" />
+                                                </svg>
+                                                Analyze URL
+                                            </button>
+                                            <div class="alert alert-destructive">
+                                                <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                    height="16" viewBox="0 0 24 24" fill="none" stroke="hsl(0,72%,51%)"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                                    <path d="M12 9v4" />
+                                                    <path d="M12 17h.01" />
+                                                </svg>
+                                                <div class="alert-body">
+                                                    <div class="alert-title">Safety Warning</div>
+                                                    <div class="alert-description">Never enter URLs from unknown or
+                                                        untrusted sources. This tool provides an AI-based assessment but
+                                                        is not a guarantee of safety.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Email Tab -->
+                                <div class="tab-content" id="tab-email">
+                                    <div class="flex items-center gap-2" style="margin-bottom:0.5rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="hsl(217,91%,60%)" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M22 10.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h12.5" />
+                                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                                            <path d="M20 14v4" />
+                                            <path d="M20 22v.01" />
+                                        </svg>
+                                        <h2 class="text-2xl font-bold font-headline">Email Analyzer</h2>
+                                    </div>
+                                    <p class="text-sm text-muted-foreground" style="margin-bottom:1.5rem;">Paste an
+                                        email's content to check for phishing indicators.</p>
+                                    <form id="email-form" class="form-spacer" novalidate>
+                                        <div class="form-group">
+                                            <label for="email-content" class="form-label">Email Content</label>
+                                            <textarea id="email-content" class="textarea textarea-code"
+                                                placeholder="Paste the full email content here..." required
+                                                minlength="10"></textarea>
+                                            <span id="email-content-error" class="form-error hidden"></span>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" id="email-btn" class="btn btn-primary btn-lg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="M22 10.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h12.5" />
+                                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                                                    <path d="M20 14v4" />
+                                                    <path d="M20 22v.01" />
+                                                </svg>
+                                                Analyze Email
+                                            </button>
+                                            <div class="alert alert-destructive">
+                                                <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                    height="16" viewBox="0 0 24 24" fill="none" stroke="hsl(0,72%,51%)"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                                    <path d="M12 9v4" />
+                                                    <path d="M12 17h.01" />
+                                                </svg>
+                                                <div class="alert-body">
+                                                    <div class="alert-title">Privacy Note</div>
+                                                    <div class="alert-description">This tool analyzes content for
+                                                        security threats. Avoid pasting personally identifiable
+                                                        information if possible. All analysis is performed by an AI
+                                                        model.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Message Tab -->
+                                <div class="tab-content" id="tab-message">
+                                    <div class="flex items-center gap-2" style="margin-bottom:0.5rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="hsl(217,91%,60%)" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                            <path d="M12 7v2" />
+                                            <path d="M12 13h.01" />
+                                        </svg>
+                                        <h2 class="text-2xl font-bold font-headline">Message Analyzer</h2>
+                                    </div>
+                                    <p class="text-sm text-muted-foreground" style="margin-bottom:1.5rem;">Paste an SMS
+                                        or social media message to check for smishing indicators.</p>
+                                    <form id="message-form" class="form-spacer" novalidate>
+                                        <div class="form-group">
+                                            <label for="message-content" class="form-label">Message Content</label>
+                                            <textarea id="message-content" class="textarea textarea-code"
+                                                placeholder="e.g., Your package has a delivery issue. Click here to resolve: http://..."
+                                                required minlength="10"></textarea>
+                                            <span id="message-content-error" class="form-error hidden"></span>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" id="message-btn" class="btn btn-primary btn-lg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                                    <path d="M12 7v2" />
+                                                    <path d="M12 13h.01" />
+                                                </svg>
+                                                Analyze Message
+                                            </button>
+                                            <div class="alert alert-destructive">
+                                                <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                    height="16" viewBox="0 0 24 24" fill="none" stroke="hsl(0,72%,51%)"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path
+                                                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                                    <path d="M12 9v4" />
+                                                    <path d="M12 17h.01" />
+                                                </svg>
+                                                <div class="alert-body">
+                                                    <div class="alert-title">Privacy Note</div>
+                                                    <div class="alert-description">This tool analyzes content for
+                                                        security threats. Avoid pasting personally identifiable
+                                                        information if possible. All analysis is performed by an AI
+                                                        model.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                                <!-- QR Tab -->
+                                <div class="tab-content" id="tab-qr">
+                                    <div class="flex items-center gap-2" style="margin-bottom:0.5rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="hsl(217,91%,60%)" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <rect width="5" height="5" x="3" y="3" rx="1"/>
+                                            <rect width="5" height="5" x="16" y="3" rx="1"/>
+                                            <rect width="5" height="5" x="3" y="16" rx="1"/>
+                                            <path d="M21 16h-3a2 2 0 0 0-2 2v3"/>
+                                            <path d="M21 21v.01"/>
+                                            <path d="M12 7v3a2 2 0 0 1-2 2H7"/>
+                                            <path d="M3 12h.01"/>
+                                            <path d="M12 3h.01"/>
+                                            <path d="M12 16v.01"/>
+                                            <path d="M16 12h1a2 2 0 0 1 2 2v1"/>
+                                            <path d="M21 12v.01"/>
+                                        </svg>
+                                        <h2 class="text-2xl font-bold font-headline">QR Code Analyzer</h2>
+                                    </div>
+                                    <p class="text-sm text-muted-foreground" style="margin-bottom:1.5rem;">Upload a QR code image to analyze its destination for threats.</p>
+                                    <form id="qr-form" class="form-spacer" novalidate>
+                                        <div class="form-group">
+                                            <label for="qr-input" class="form-label">Upload QR Image</label>
+                                            <input type="file" id="qr-input" class="input" accept="image/*" required style="padding-top: 0.35rem;" />
+                                            <span id="qr-input-error" class="form-error hidden"></span>
+                                            <div id="qr-preview-container" class="hidden" style="margin-top: 1rem; border: 1px solid hsl(var(--border)); padding: 0.5rem; border-radius: var(--radius); text-align: center;">
+                                                <img id="qr-preview-img" src="" alt="QR Preview" style="max-height: 150px; display: inline-block; border-radius: calc(var(--radius) - 2px);" />
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" id="qr-btn" class="btn btn-primary btn-lg">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                                    <polyline points="17 8 12 3 7 8"/>
+                                                    <line x1="12" x2="12" y1="3" y2="15"/>
+                                                </svg>
+                                                Analyze QR Code
+                                            </button>
+                                            <div class="alert alert-destructive">
+                                                <svg class="alert-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="hsl(0,72%,51%)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                                                    <path d="M12 9v4" />
+                                                    <path d="M12 17h.01" />
+                                                </svg>
+                                                <div class="alert-body">
+                                                    <div class="alert-title">Safety Warning</div>
+                                                    <div class="alert-description">Malicious QR codes can lead to phishing sites or trigger unwanted actions. Always verify the source before scanning physically.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Dividers -->
+                            <hr class="analysis-divider-h" />
+                            <div class="analysis-right">
+                                <div class="analysis-divider-v"></div>
+                                <!-- Result Panel -->
+                                <div id="analysis-result">
+                                    <!-- Placeholder -->
+                                    <div class="placeholder-box" id="result-placeholder">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
+                                            viewBox="0 0 24 24" fill="none" stroke="hsl(var(--muted-foreground))"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path
+                                                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                                            <path d="M12 8v4" />
+                                            <path d="M12 16h.01" />
+                                        </svg>
+                                        <h3 class="font-semibold font-headline"
+                                            style="margin-top:1rem;font-size:1.125rem;">Awaiting Analysis</h3>
+                                        <p class="text-sm text-muted-foreground" style="margin-top:0.25rem;">Your
+                                            security analysis will appear here.</p>
+                                    </div>
+
+                                    <!-- Skeleton (Loading) -->
+                                    <div id="result-skeleton" class="hidden"
+                                        style="display:flex;flex-direction:column;gap:1.5rem;">
+                                        <div style="display:flex;justify-content:space-between;gap:1rem;">
+                                            <div>
+                                                <div class="skeleton" style="height:2rem;width:12rem;"></div>
+                                                <div class="skeleton"
+                                                    style="height:1rem;width:16rem;margin-top:0.5rem;"></div>
+                                            </div>
+                                            <div class="skeleton" style="height:2rem;width:2rem;border-radius:50%;">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="skeleton" style="height:1rem;width:8rem;"></div>
+                                            <div class="skeleton" style="height:1rem;width:100%;margin-top:0.5rem;">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="skeleton" style="height:1rem;width:8rem;"></div>
+                                            <div class="skeleton" style="height:1rem;width:100%;margin-top:0.5rem;">
+                                            </div>
+                                            <div class="skeleton" style="height:1rem;width:75%;margin-top:0.5rem;">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="skeleton" style="height:1rem;width:8rem;"></div>
+                                            <div class="skeleton" style="height:1rem;width:100%;margin-top:0.5rem;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Actual Result (populated by JS) -->
+                                    <div id="result-data" class="hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ Chatbot ═══ -->
+                <div class="glass-card chatbot-card">
+                    <div class="card-header">
+                        <h2 class="card-title font-headline">
+                            <!-- MessageSquare Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="hsl(217,91%,60%)" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                            ThreatSense AI
+                        </h2>
+                    </div>
+
+                    <div class="chat-messages scroll-area" id="chat-messages">
+                        <div class="chat-messages-inner" id="chat-messages-inner">
+                            <!-- Welcome message -->
+                            <div class="chat-bubble assistant">
+                                <div class="chat-avatar bot-avatar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M12 8V4H8" />
+                                        <rect width="16" height="12" x="4" y="8" rx="2" />
+                                        <path d="M2 14h2" />
+                                        <path d="M20 14h2" />
+                                        <path d="M15 13v2" />
+                                        <path d="M9 13v2" />
+                                    </svg>
+                                </div>
+                                <div class="chat-text">Hello! I'm ThreatSense AI, your cybersecurity assistant. Ask me
+                                    anything about staying safe online!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Preview -->
+                    <div id="image-preview-area" class="hidden" style="padding:0 1.5rem;">
+                        <div class="image-preview">
+                            <img id="preview-img" src="" alt="Upload preview" />
+                            <button class="remove-btn" id="remove-image-btn" title="Remove">✕</button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <form id="chat-form" class="chat-input-area">
+                        <div class="chat-toolbar">
+                            <button type="button" id="btn-upload" class="btn-icon" title="Upload image">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                                </svg>
+                            </button>
+                            <button type="button" id="btn-mic" class="btn-icon" title="Speech to text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                                    <line x1="12" x2="12" y1="19" y2="22" />
+                                </svg>
+                            </button>
+                        </div>
+                        <input type="text" id="chat-input" class="chat-input" placeholder="Ask about cybersecurity..."
+                            autocomplete="off" />
+                        <button type="submit" id="btn-send" class="btn btn-primary btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path
+                                    d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.629a.498.498 0 0 0 .682.627l18.168-8.215a.5.5 0 0 0 0-.904z" />
+                                <path d="M6 12h16" />
+                            </svg>
+                            Send
+                        </button>
+                    </form>
+                    <input type="file" id="file-input" accept="image/*" class="hidden" />
+                </div>
+
+            </div>
+        </main>
+
+        <!-- ── Footer ── -->
+        <footer class="app-footer">
+            <div class="footer-inner">
+                <p class="text-sm text-muted-foreground">Built for the Techsprint Hackathon.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-auth-compat.js"></script>
+
+    <!-- Puter.js SDK -->
+    <script src="https://js.puter.com/v2/"></script>
+
+    <!-- App Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/puter-ai.js"></script>
+    <script src="js/ai-manager.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

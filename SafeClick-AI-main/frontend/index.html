@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThreatSense AI — Login</title>
+  <meta name="description" content="Sign in to ThreatSense AI, your AI-powered cybersecurity assistant." />
+  <link rel="icon" href="assets/icon.png" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="page-center">
+    <div class="spinner spinner-lg text-primary"></div>
+  </div>
+
+  <!-- Login Page -->
+  <div id="login-page" class="page-center hidden">
+    <div class="w-full max-w-md">
+
+      <!-- Logo -->
+      <div class="flex justify-center mb-6" style="justify-content:center;">
+        <div class="logo">
+          <img src="assets/icon.png" alt="ThreatSense AI" class="logo-img" />
+          <div class="logo-text">
+            <span class="logo-name">ThreatSense AI</span>
+            <span class="logo-sub">Intelligent Threat Analyzer</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Card -->
+      <div class="glass-card">
+        <div class="card-header">
+          <h1 class="card-title" style="font-size:1.5rem;">Welcome to ThreatSense AI</h1>
+          <p class="card-description">Sign in or create an account to get started.</p>
+        </div>
+        <div class="card-content">
+          <!-- Auth Form -->
+          <form id="auth-form" class="form-spacer" novalidate>
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                id="email"
+                class="input"
+                placeholder="name@example.com"
+                autocomplete="email"
+                required
+              />
+              <span id="email-error" class="form-error hidden"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="input"
+                placeholder="••••••••"
+                autocomplete="current-password"
+                minlength="6"
+                required
+              />
+              <span id="password-error" class="form-error hidden"></span>
+            </div>
+
+            <div class="form-row">
+              <button type="button" id="btn-signin" class="btn btn-primary btn-flex-1">
+                Sign In
+              </button>
+              <button type="button" id="btn-signup" class="btn btn-secondary btn-flex-1">
+                Sign Up
+              </button>
+            </div>
+          </form>
+
+          <!-- OR Separator -->
+          <div class="separator-or">
+            <hr class="separator" />
+            <span class="separator-text">OR</span>
+          </div>
+
+          <!-- Anonymous -->
+          <button id="btn-anonymous" class="btn btn-secondary btn-full">
+            <!-- User Icon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Continue Anonymously
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Firebase SDK (CDN) -->
+  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-auth-compat.js"></script>
+
+  <!-- App Scripts -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

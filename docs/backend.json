@@ -1,0 +1,52 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user account for the ThreatSense-AI Sentinel application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        }
+      },
+      "required": [
+        "id",
+        "email"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user-specific data. User ID is obtained from Firebase Authentication. No user data is stored by default, only upon request. This structure can be used for future enhancements if needed.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user, obtained from Firebase Authentication (request.auth.uid)."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "Given the requirement for a privacy-first application that does not store personal user data and focuses on URL analysis and cybersecurity guidance through an AI chatbot, the Firestore structure will primarily serve for optional user-specific configurations or logging (if needed for debugging, but without storing any personally identifiable information). Since the application explicitly avoids storing user data, the structure will mainly facilitate optional future enhancements without compromising user privacy. The provided entities include only the user model and the app uses anonymous auth. The recommended approach is to create a user document only upon request with settings in it, if available. This design avoids reliance on `get()` calls for authorization and promotes atomic operations. Security rules can be written based on `request.auth.uid` for any user-specific data, if necessary. This structure ensures Authorization Independence by avoiding hierarchical dependencies. Since the application is designed to be privacy-first and avoids storing user data, the need for QAPs is minimal, as there are no lists of user-specific data to secure. However, if logging or configuration data is stored, segregation into separate collections with well-defined security rules will be implemented to support secure `list` operations."
+  }
+}
