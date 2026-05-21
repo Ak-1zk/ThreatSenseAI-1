@@ -113,7 +113,12 @@ def analyze_qr_code(image_base64: str) -> dict:
     )
 
     # Parse the JSON response from Gemini
-    response_text = response.text
+    response_text = response.text or ""
+    if not response_text and response.candidates:
+        for part in response.candidates[0].content.parts:
+            if hasattr(part, 'text') and part.text:
+                response_text = part.text
+                break
     cleaned = response_text.replace("```json", "").replace("```", "").strip()
     result = json.loads(cleaned)
 

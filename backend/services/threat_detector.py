@@ -14,6 +14,7 @@ import os
 import json
 import re
 import joblib
+from google.genai import types
 from backend.services.gemini_service import get_gemini_client, get_model_id
 
 # Path to saved models
@@ -164,13 +165,18 @@ def _analyze(content: str, threat_type: str) -> dict:
         response = client.models.generate_content(
             model=get_model_id(),
             contents=f"Analyze this {threat_name} under your cybersecurity guidelines: {payload}",
-            config={
-                "response_mime_type": "application/json",
-                "system_instruction": system_instruction,
-            },
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+                system_instruction=system_instruction,
+            ),
         )
         
-        response_text = response.text
+        response_text = response.text or ""
+        if not response_text and response.candidates:
+            for part in response.candidates[0].content.parts:
+                if hasattr(part, 'text') and part.text:
+                    response_text = part.text
+                    break
         cleaned = response_text.replace("```json", "").replace("```", "").strip()
         result = json.loads(cleaned)
         
