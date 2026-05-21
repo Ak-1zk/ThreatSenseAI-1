@@ -30,19 +30,19 @@ async def analyze(request: AnalysisRequest):
             raise HTTPException(status_code=400, detail="Message/Content is required")
 
         text = request.message.strip()
-        print(f"🔵 [Router] Incoming analysis request: '{text[:60]}...'")
+        print(f"[INFO] [Router] Incoming analysis request: '{text[:60]}...'")
 
         # Dynamic routing based on frontend prompt envelopes
         if text.lower().startswith("analyze this url"):
-            print("👉 Routed to: URL Analyzer")
+            print("  --> Routed to: URL Analyzer")
             result = analyze_url(text)
             
         elif text.lower().startswith("analyze this email"):
-            print("👉 Routed to: Email Threat Detector")
+            print("  --> Routed to: Email Threat Detector")
             result = analyze_email(text)
             
         elif text.lower().startswith("analyze this message"):
-            print("👉 Routed to: Message/SMS Threat Detector")
+            print("  --> Routed to: Message/SMS Threat Detector")
             result = analyze_message(text)
             
         else:
@@ -50,15 +50,15 @@ async def analyze(request: AnalysisRequest):
             # Check if it looks like a URL (starts with http/https or contains common TLDs)
             url_pattern = r"(https?://[^\s]+)|(^[a-zA-Z0-9][-a-zA-Z0-9.]*\.(com|net|org|edu|gov|mil|biz|info|io|co|me|xyz|info|us|tv|cc|ws|mobi|app|dev|sh|kr|in|br)(/[^\s]*)?$)"
             if re.search(url_pattern, text, re.IGNORECASE):
-                print("👉 Heuristically Routed to: URL Analyzer")
+                print("  --> Heuristically Routed to: URL Analyzer")
                 result = analyze_url(text)
             else:
                 # If it's a block of text, check size; large blocks default to Email, short blocks to Message/SMS
                 if len(text) > 200:
-                    print("👉 Heuristically Routed to: Email Threat Detector")
+                    print("  --> Heuristically Routed to: Email Threat Detector")
                     result = analyze_email(text)
                 else:
-                    print("👉 Heuristically Routed to: Message/SMS Threat Detector")
+                    print("  --> Heuristically Routed to: Message/SMS Threat Detector")
                     result = analyze_message(text)
 
         return result

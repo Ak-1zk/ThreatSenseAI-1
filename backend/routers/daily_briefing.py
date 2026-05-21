@@ -23,7 +23,7 @@ async def daily_briefing():
     except Exception as e:
         import traceback
         traceback.print_exc()
-        print(f"❌ Error generating briefing: {e}")
+        print(f"[ERROR] Error generating briefing: {e}")
         from fastapi.responses import JSONResponse
         return JSONResponse(
             status_code=500,

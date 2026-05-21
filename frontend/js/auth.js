@@ -100,7 +100,14 @@
         if (!validateForm()) return;
         setLoading(true);
         try {
-            await auth.createUserWithEmailAndPassword(emailInput.value.trim(), passwordInput.value);
+            const userCredential = await auth.createUserWithEmailAndPassword(emailInput.value.trim(), passwordInput.value);
+            const user = userCredential.user;
+            
+            // Create user document in Firestore
+            await db.collection('users').doc(user.uid).set({
+                id: user.uid,
+                email: user.email
+            });
             // onAuthStateChanged will redirect
         } catch (err) {
             setLoading(false);
@@ -112,7 +119,14 @@
     btnAnonymous.addEventListener('click', async () => {
         setLoading(true);
         try {
-            await auth.signInAnonymously();
+            const userCredential = await auth.signInAnonymously();
+            const user = userCredential.user;
+            
+            // Create anonymous user document in Firestore
+            await db.collection('users').doc(user.uid).set({
+                id: user.uid,
+                email: user.email || "anonymous"
+            });
             // onAuthStateChanged will redirect
         } catch (err) {
             setLoading(false);

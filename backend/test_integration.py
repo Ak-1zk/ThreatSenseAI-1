@@ -43,15 +43,15 @@ def test_url_classification():
             
             # Simple check (malicious URLs should have risk score > 50, benign < 50)
             if expected == "SAFE" and res['classification'] != "SAFE":
-                print(f" ❌ Expected SAFE but got {res['classification']}")
+                print(f" [FAIL] Expected SAFE but got {res['classification']}")
                 success = False
             elif expected == "DANGEROUS" and res['classification'] not in ["DANGEROUS", "SUSPICIOUS"]:
-                print(f" ❌ Expected DANGEROUS/SUSPICIOUS but got {res['classification']}")
+                print(f" [FAIL] Expected DANGEROUS/SUSPICIOUS but got {res['classification']}")
                 success = False
             else:
-                print(" ✅ Pass")
+                print(" [PASS] Pass")
         except Exception as e:
-            print(f" ❌ Error analyzing '{url}': {e}")
+            print(f" [FAIL] Error analyzing '{url}': {e}")
             success = False
             
     return success
@@ -77,15 +77,15 @@ def test_message_classification():
             print(f" -> Reasons: {res['reasons']}")
             
             if expected == "SAFE" and res['classification'] != "SAFE":
-                print(f" ❌ Expected SAFE but got {res['classification']}")
+                print(f" [FAIL] Expected SAFE but got {res['classification']}")
                 success = False
             elif expected == "DANGEROUS" and res['classification'] not in ["DANGEROUS", "SUSPICIOUS"]:
-                print(f" ❌ Expected DANGEROUS/SUSPICIOUS but got {res['classification']}")
+                print(f" [FAIL] Expected DANGEROUS/SUSPICIOUS but got {res['classification']}")
                 success = False
             else:
-                print(" ✅ Pass")
+                print(" [PASS] Pass")
         except Exception as e:
-            print(f" ❌ Error: {e}")
+            print(f" [FAIL] Error: {e}")
             success = False
             
     return success
@@ -109,9 +109,9 @@ async def test_router_smart_routing():
             # Call router analyze endpoint
             res = await analyze(req)
             print(f" -> Result classification: {res['classification']} (Risk Score: {res['risk_score']})")
-            print(" ✅ Pass")
+            print(" [PASS] Pass")
         except Exception as e:
-            print(f" ❌ Router test failed: {e}")
+            print(f" [FAIL] Router test failed: {e}")
             success = False
             
     return success
@@ -127,9 +127,9 @@ async def main():
     
     print("\n" + "=" * 60)
     if url_ok and msg_ok and router_ok:
-        print("🎉 ALL INTEGRATION TESTS PASSED SUCCESSFULLY!")
+        print("[SUCCESS] ALL INTEGRATION TESTS PASSED SUCCESSFULLY!")
     else:
-        print("❌ SOME INTEGRATION TESTS FAILED. Please review the logs above.")
+        print("[FAILURE] SOME INTEGRATION TESTS FAILED. Please review the logs above.")
     print("=" * 60)
 
 if __name__ == "__main__":
