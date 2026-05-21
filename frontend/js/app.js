@@ -237,6 +237,13 @@
         document.getElementById('result-placeholder').classList.add('hidden');
 
         // Ensure classification matches risk score
+        let score = analysis.risk_score !== undefined ? analysis.risk_score : analysis.riskScore;
+        score = Number(score);
+        if (isNaN(score)) {
+            score = analysis.classification === 'DANGEROUS' ? 90 : (analysis.classification === 'SUSPICIOUS' ? 70 : 0);
+        }
+        analysis.risk_score = score;
+
         if (analysis.risk_score < 60) {
             analysis.classification = 'SAFE';
         } else if (analysis.risk_score < 80) {

@@ -125,7 +125,9 @@ def analyze_url(message: str) -> dict:
         "google.com", "github.com", "microsoft.com", "apple.com", "youtube.com",
         "facebook.com", "wikipedia.org", "amazon.com", "twitter.com", "linkedin.com",
         "netflix.com", "reddit.com", "instagram.com", "gmail.com", "yahoo.com",
-        "zoom.us", "githubusercontent.com", "googleusercontent.com", "gstatic.com"
+        "zoom.us", "githubusercontent.com", "googleusercontent.com", "gstatic.com",
+        "whatsapp.com", "paypal.com", "spotify.com", "bing.com", "discord.com",
+        "twitch.tv", "office.com", "live.com", "adobe.com", "canva.com", "dropbox.com"
     }
     
     is_whitelisted = False
